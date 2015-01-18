@@ -6,35 +6,27 @@
 #
 class Board
   def initialize
-    @square = [
-      [nil, nil, nil],
-      [nil, nil, nil],
-      [nil, nil, nil]
-    ]
+    @square = (1..9).to_a
   end
 
   # set a board square to x or o
   def set(position, xo)
     fail ArgumentError unless
       (1 <= position && position <= 9) && (xo == :x || xo == :o)
-    i = (position - 1) / 3
-    j = (position - 1) % 3
-    @square[i][j] = xo.to_s.upcase
+    @square[position - 1] = xo.to_s.upcase
   end
 
   def to_s
-    str = ''
-    (0..2).each do |i|
-      (0..2).each do |j|
-        str << ' '
-        if @square[i][j].nil?
-          str << (i * 3 + j + 1).to_s
-        else
-          str << @square[i][j]
-        end
-      end
-      str << "\n"
-    end
-    str
+    rows = @square.each_slice(3).map { |i| i.join(' ') }
+    rows.join("\n") + "\n"
+  end
+
+  def won?
+    false
+  end
+
+  private
+
+  def rows
   end
 end
