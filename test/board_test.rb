@@ -11,13 +11,19 @@ class BoardTest < Minitest::Test
   end
 
   def test_set_square_to_x
-    @board.set(2, 'X')
+    assert @board.set(2, 'X')
     assert_equal "1 X 3\n4 5 6\n7 8 9\n", @board.to_s
   end
 
   def test_set_square_to_o
-    @board.set(7, 'O')
+    assert @board.set(7, 'O')
     assert_equal "1 2 3\n4 5 6\nO 8 9\n", @board.to_s
+  end
+
+  def test_set_square_twice
+    @board.set(1, 'X')
+    refute @board.set(1, 'O')
+    assert_equal "X 2 3\n4 5 6\n7 8 9\n", @board.to_s
   end
 
   def test_set_2_squares

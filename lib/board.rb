@@ -12,8 +12,21 @@ class Board
   # set a board square to x or o
   def set(position, xo)
     fail ArgumentError unless
-      (1 <= position && position <= 9) && (xo == 'X' || xo == 'O')
-    @square[position - 1] = xo
+      (1 <= position && position <= 9) && xo?(xo)
+    if already_played(position)
+      false
+    else
+      @square[position - 1] = xo
+    end
+  end
+
+  def already_played(position)
+    fail ArgumentError unless 1 <= position && position <= 9
+    xo?(@square[position - 1])
+  end
+
+  def xo?(val)
+    val == 'X' || val == 'O'
   end
 
   def to_s
@@ -31,7 +44,7 @@ class Board
   end
 
   def draw?
-    @square.all? { |i| i !~ /\d/ }
+    @square.all? { |i| xo?(i) }
   end
 
   def rows
